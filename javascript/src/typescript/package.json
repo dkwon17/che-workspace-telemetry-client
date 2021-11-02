@@ -21,7 +21,7 @@
   "dependencies": {
     "@eclipse-che/api": "^7.3.2",
     "axios": "0.21.2",
-    "moxios": "git://github.com/stoplightio/moxios#v1.3.0"
+    "moxios": "github:stoplightio/moxios#v1.3.0"
   },
   "devDependencies": {
     "@types/jest": "22.1.3",
