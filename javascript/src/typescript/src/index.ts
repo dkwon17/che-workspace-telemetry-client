@@ -27,11 +27,11 @@ export class TelemetryClient implements TelemetryApi {
         this.delegate = DefaultApiFactory(conf, basePath, axiosInstance);
     }
 
-    private wrapInPromise<T, Args extends any[]>(f: (...args: Args) => AxiosPromise<T>, ...args: Args) {
-        return new Promise<T>((resolve, reject) => {
+    private wrapInPromise<T, Args extends any[]>(f: (...args: Args) => AxiosPromise<string>, ...args: Args) {
+        return new Promise<string>((resolve, reject) => {
             f(...args)
-                .then((response: AxiosResponse<{}>) => {
-                    resolve();
+                .then(() => {
+                    resolve('');
                 })
                 .catch((error: AxiosError) => {
                     reject(new RequestError(error));
@@ -40,7 +40,7 @@ export class TelemetryClient implements TelemetryApi {
     }
 
     activity(options?: any): Promise<string> {
-        return this.wrapInPromise(this.delegate.activity);
+        return this.wrapInPromise(this.delegate.activity, options);
     }
 
     event(event: Event, options?: any): Promise<string> {
