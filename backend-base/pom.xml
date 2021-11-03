@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.eclipse.che.incubator.workspace-telemetry</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.31</version>
+    <version>0.0.32</version>
   </parent>
   <distributionManagement>
     <repository>
@@ -12,7 +12,7 @@
     </repository>
   </distributionManagement>
   <artifactId>backend-base</artifactId>
-  <version>0.0.31</version>
+  <version>0.0.32</version>
   <properties>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.parameters>true</maven.compiler.parameters>
