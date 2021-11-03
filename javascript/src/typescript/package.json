@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/server.js",
   "browser": "dist/client.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "rimraf dist && webpack-cli --mode production --config webpack.config.js",
     "test": "jest",
