@@ -8,7 +8,7 @@
         ],
         "module": "commonjs",
         "declaration": true,
-        "outDir": ".",
+        "outDir": "dist",
         "baseUrl": "src"
     },
     "exclude": [
