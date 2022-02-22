@@ -59,8 +59,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>11</source>
+            <target>11</target>
           </configuration>
         </plugin>
         <plugin>
@@ -68,7 +68,7 @@
           <artifactId>openapi-generator-maven-plugin</artifactId>
           <version>3.3.4</version>
           <configuration>
-            <inputSpec>${project.build.directory}/api/workspace-telemetry-api.yaml</inputSpec>
+            <inputSpec>${project.build.directory}/api/openapi.yaml</inputSpec>
           </configuration>
         </plugin>
         <plugin>

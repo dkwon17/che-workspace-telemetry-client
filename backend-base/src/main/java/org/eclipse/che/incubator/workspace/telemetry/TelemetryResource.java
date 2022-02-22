@@ -43,7 +43,7 @@ public class TelemetryResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.TEXT_PLAIN)
   @Operation(summary = "Posts a telemetry event",
-    description = "Submit telemetry events to the workspace telemetry manager.\nThe event Id should be the Id of a built-in event or of an alread-registered custom event",
+    description = "Submit telemetry events to the workspace telemetry manager.\nThe event Id should be the Id of a built-in event or of an already-registered custom event",
     operationId = "event")
   @APIResponse(responseCode = "200", description = "Event was successfully submitted")
   @APIResponse(responseCode = "400", description = "Error during event submission")
@@ -66,8 +66,8 @@ public class TelemetryResource {
   @Path("/activity")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @Produces(MediaType.TEXT_PLAIN)
-  @Operation(summary = "Notifies that some activity is still occuring from a given user",
-    description = "Notifies that some activity is still occuring for a given user. This will allow maintaining the current session alive for telemetry backends that manage user sessions.",
+  @Operation(summary = "Notifies that some activity is still occurring from a given user",
+    description = "Notifies that some activity is still occurring for a given user. This will allow maintaining the current session alive for telemetry backends that manage user sessions.",
     operationId = "activity")
   @APIResponse(responseCode = "200", description = "Notification was successfully submitted")
   public String activity() {

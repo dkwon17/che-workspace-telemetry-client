@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.eclipse.che.incubator.workspace-telemetry</groupId>
@@ -14,23 +16,21 @@
   <artifactId>backend-base</artifactId>
   <version>0.0.32</version>
   <properties>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
-    <surefire-plugin.version>2.22.0</surefire-plugin.version>
-    <quarkus.version>1.2.0.Final</quarkus.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <native-image.xmx>6G</native-image.xmx>
-    <swagger-maven-plugin-version>3.1.8</swagger-maven-plugin-version>
+    <maven.compiler.release>11</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+    <quarkus.platform.version>2.7.1.Final</quarkus.platform.version>
+    <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-bom</artifactId>
-        <version>${quarkus.version}</version>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -38,12 +38,17 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>com.oracle.substratevm</groupId>
+      <groupId>org.graalvm.nativeimage</groupId>
       <artifactId>svm</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-kubernetes-client</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -53,6 +58,11 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -74,8 +84,8 @@
       <version>7.4.0</version>
       <exclusions>
         <exclusion>
+          <artifactId>che-core-api-dto</artifactId>
           <groupId>org.eclipse.che.core</groupId>
-          <artifactId>he-core-api-dto</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -90,8 +100,8 @@
       <version>7.4.0</version>
       <exclusions>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-api-core</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -101,16 +111,16 @@
       <version>7.4.0</version>
       <exclusions>
         <exclusion>
-          <groupId>io.swagger</groupId>
           <artifactId>swagger-annotations</artifactId>
+          <groupId>io.swagger</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-api-dto</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-api-core</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -120,16 +130,16 @@
       <version>7.4.0</version>
       <exclusions>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-api-dto</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-api-core</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-api-workspace-shared</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -139,20 +149,20 @@
       <version>7.4.0</version>
       <exclusions>
         <exclusion>
-          <groupId>com.google.inject</groupId>
           <artifactId>guice</artifactId>
+          <groupId>com.google.inject</groupId>
         </exclusion>
         <exclusion>
-          <groupId>com.google.inject.extensions</groupId>
           <artifactId>guice-assisted-inject</artifactId>
+          <groupId>com.google.inject.extensions</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.eclipse.che.core</groupId>
           <artifactId>che-core-commons-schedule</artifactId>
+          <groupId>org.eclipse.che.core</groupId>
         </exclusion>
         <exclusion>
-          <groupId>javax.ws.rs</groupId>
           <artifactId>javax.ws.rs-api</artifactId>
+          <groupId>javax.ws.rs</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -162,7 +172,7 @@
       <plugin>
         <groupId>org.jboss.jandex</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
-        <version>1.0.6</version>
+        <version>1.2.2</version>
         <executions>
           <execution>
             <id>make-index</id>
@@ -173,9 +183,9 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>io.quarkus</groupId>
+        <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.version}</version>
+        <version>${quarkus.platform.version}</version>
         <executions>
           <execution>
             <goals>
@@ -187,25 +197,6 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <configuration>
-          <mainClass>org.eclipse.che.incubator.workspace.telemetry.generate.GenerateOpenApiSchema</mainClass>
-          <arguments>
-            <argument>${project.build.directory}/workspace-telemetry-api.yaml</argument>
-          </arguments>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <phase>process-classes</phase>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -262,6 +253,9 @@
                   <systemProperties>
                     <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
                   </systemProperties>
+                  <includes>
+                    <include>**/*IT</include>
+                  </includes>
                 </configuration>
               </execution>
             </executions>
@@ -271,33 +265,6 @@
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
-    </profile>
-    <profile>
-      <id>integrationTests</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${surefire-plugin.version}</version>
-            <executions>
-              <execution>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-                <configuration>
-                  <includes>
-                    <include>**/*IT.java</include>
-                  </includes>
-                  <excludes>
-                    <exclude>**/Native*IT.java</exclude>
-                  </excludes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
   </profiles>
 </project>

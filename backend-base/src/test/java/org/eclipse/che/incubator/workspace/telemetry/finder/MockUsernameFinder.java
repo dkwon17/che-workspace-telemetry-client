@@ -9,14 +9,14 @@
  * Contributors:
  *   Red Hat, Inc. - initial API and implementation
  */
-package org.eclipse.che.incubator.workspace.telemetry.base;
+package org.eclipse.che.incubator.workspace.telemetry.finder;
 
-import javax.enterprise.context.Dependent;
+import io.quarkus.test.Mock;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-@Dependent
-public class BaseConfiguration {
-  @ConfigProperty(name = "devworkspace.id")
-  protected String devworkspaceId;
+@Mock
+public class MockUsernameFinder implements UsernameFinder {
+  @Override
+  public String findUsername() {
+    return "test-username";
+  }
 }

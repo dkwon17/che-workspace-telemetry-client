@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright (c) 2018 Red Hat, Inc.
+ * Copyright (c) 2022 Red Hat, Inc.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,8 +9,8 @@
  **********************************************************************/
 
 import axios, {AxiosInstance, AxiosPromise, AxiosResponse, AxiosError, AxiosRequestConfig} from 'axios';
-import {DefaultApiFactory, DefaultApiInterface, Event} from './openapi/api';
-import {ConfigurationParameters, Configuration} from './openapi/configuration';
+import {TelemetryResourceApiFactory, TelemetryResourceApiInterface, Event} from './openapi/api';
+import { Configuration} from './openapi/configuration';
 export * from './openapi/configuration';
 export * from './openapi/api';
 
@@ -18,13 +18,13 @@ type AxiosPromiseWrapper<T> = {
     [K in keyof T]: T[K] extends (...args: infer Args) => AxiosPromise<infer R> ? (...args: Args) => Promise<R> : T[K];
 };
 
-export interface TelemetryApi extends AxiosPromiseWrapper<DefaultApiInterface> {}
+export interface TelemetryApi extends AxiosPromiseWrapper<TelemetryResourceApiInterface> {}
 
 export class TelemetryClient implements TelemetryApi {
-    private delegate : DefaultApiInterface
+    private delegate : TelemetryResourceApiInterface
 
     constructor(conf? : Configuration, basePath: string = '', axiosInstance: AxiosInstance = axios) {
-        this.delegate = DefaultApiFactory(conf, basePath, axiosInstance);
+        this.delegate = TelemetryResourceApiFactory(conf, basePath, axiosInstance);
     }
 
     private wrapInPromise<T, Args extends any[]>(f: (...args: Args) => AxiosPromise<string>, ...args: Args) {

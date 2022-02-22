@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Red Hat, Inc.
+ * Copyright (c) 2022 Red Hat, Inc.
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -27,19 +27,6 @@ class AbstractAnalyticsManagerTest {
     @Inject
     AbstractAnalyticsManager analyticsManager;
 
-    @BeforeAll
-    public static void setUp() {
-        System.setProperty("che.api.internal", "https://fake-che.com/api");
-        System.setProperty("che.workspace.id", "fake-workspace");
-        System.setProperty("che.machine.token", "fake-token");
-    }
-
-    @AfterAll
-    public static void tearDown() {
-        System.clearProperty("che.api.internal");
-    }
-
-
     @Test
     public void testInstantiation() {
         assertNotNull(analyticsManager);
@@ -47,11 +34,11 @@ class AbstractAnalyticsManagerTest {
 
     @Test
     public void testMockResponseProperties() {
-        assertEquals(analyticsManager.workspaceId, "fake-workspace");
-        assertEquals(analyticsManager.workspaceName, "wksp-lqq9");
-        assertEquals(analyticsManager.createdOn, "1575567196811");
-        assertEquals(analyticsManager.updatedOn, "1575575662792");
-        assertEquals(analyticsManager.stackId, "Go");
-        assertEquals(analyticsManager.firstStart, true);
+        assertEquals("fake-devworkspace", analyticsManager.devworkspaceId);
+        assertEquals("python-hello-world", analyticsManager.devworkspaceName);
+        assertEquals(1644869222000L, analyticsManager.createdOn);
+        assertEquals(1644955985435L, analyticsManager.updatedOn);
+        assertEquals(86763L, analyticsManager.age);
     }
+
 }

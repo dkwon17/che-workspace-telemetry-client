@@ -13,8 +13,8 @@ package org.eclipse.che.incubator.workspace.telemetry.base;
 
 public interface EventProperties {
   public static final String PROGRAMMING_LANGUAGE = "programming language";
-  public static final String WORKSPACE_ID = "workspace id";
-  public static final String WORKSPACE_NAME = "workspace name";
+  public static final String DEVWORKSPACE_ID = "devworkspace id";
+  public static final String DEVWORKSPACE_NAME = "devworkspace name";
   public static final String STACK_ID = "stack id";
   public static final String FACTORY_ID = "factory id";
   public static final String FACTORY_NAME = "factory name";

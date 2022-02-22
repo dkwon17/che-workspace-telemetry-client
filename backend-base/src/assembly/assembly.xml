@@ -10,7 +10,7 @@
     <fileSets>
         <fileSet>
             <directory>${project.build.directory}</directory>
-            <includes><include>workspace-telemetry-api.yaml</include></includes>
+            <includes><include>openapi.yaml</include></includes>
             <outputDirectory></outputDirectory>
         </fileSet>
     </fileSets>
