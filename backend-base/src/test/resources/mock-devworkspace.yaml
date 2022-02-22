@@ -1,0 +1,106 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  annotations:
+    che.eclipse.org/che-editor: eclipse/che-theia/next
+    che.eclipse.org/devfile-source: |
+      factory:
+        params: >-
+          url=https://github.com/che-samples/python-hello-world/tree/devfilev2&devWorkspace=https://che-dogfooding.apps.che-dev.x6e0.p1.openshiftapps.com/devfile-registry/devfiles/python/devworkspace-che-theia-next.yaml
+    che.eclipse.org/last-updated-timestamp: '2022-02-15T20:13:05.435Z'
+  name: python-hello-world
+  creationTimestamp: '2022-02-14T20:07:02Z'
+  namespace: user-namespace
+  labels:
+    controller.devfile.io/creator: uuid
+spec:
+  routingClass: che
+  started: false
+  template:
+    commands:
+      - exec:
+          commandLine: python3 hello-world.py
+          component: tools
+          group:
+            kind: run
+          label: Run application
+          workingDir: '${PROJECT_SOURCE}'
+        id: run-application
+    components:
+      - container:
+          args:
+            - sh
+            - '-c'
+            - '${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}'
+          env:
+            - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+              value: /remote-endpoint/plugin-remote-endpoint
+            - name: THEIA_PLUGINS
+              value: 'local-dir:///plugins/sidecars/tools'
+          image: 'quay.io/devfile/universal-developer-image:ubi8-0e189d9'
+          memoryLimit: 512Mi
+          mountSources: true
+          sourceMapping: /projects
+          volumeMounts:
+            - name: venv
+              path: /home/user/.venv
+            - name: remote-endpoint
+              path: /remote-endpoint
+            - name: plugins
+              path: /plugins
+        name: tools
+      - name: venv
+        volume:
+          size: 1G
+      - name: theia-ide-python-hello-world
+        plugin:
+          kubernetes:
+            name: theia-ide-python-hello-world
+    projects:
+      - name: python-hello-world
+        zip:
+          location: >-
+            http://devfile-registry.test.svc:8080/resources/v2/python-hello-world.zip
+status:
+  conditions:
+    - lastTransitionTime: '2022-02-16T21:18:12Z'
+      message: No warnings in processing DevWorkspace
+      status: 'False'
+      type: DevWorkspaceWarning
+    - lastTransitionTime: '2022-02-16T21:18:11Z'
+      message: DevWorkspace is starting
+      status: 'True'
+      type: Started
+    - lastTransitionTime: '2022-02-16T21:18:12Z'
+      message: Resolved plugins and parents from DevWorkspace
+      status: 'True'
+      type: DevWorkspaceResolved
+    - lastTransitionTime: '2022-02-16T21:18:12Z'
+      message: Storage ready
+      status: 'True'
+      type: StorageReady
+    - lastTransitionTime: '2022-02-16T21:18:12Z'
+      message: Networking ready
+      status: 'True'
+      type: RoutingReady
+    - lastTransitionTime: '2022-02-16T21:18:12Z'
+      message: DevWorkspace serviceaccount ready
+      status: 'True'
+      type: ServiceAccountReady
+    - lastTransitionTime: '2022-02-16T21:18:12Z'
+      message: DevWorkspace secrets ready
+      status: 'True'
+      type: PullSecretsReady
+    - lastTransitionTime: '2022-02-16T21:18:32Z'
+      message: DevWorkspace deployment ready
+      status: 'True'
+      type: DeploymentReady
+    - lastTransitionTime: '2022-02-16T21:18:32Z'
+      status: 'True'
+      type: Ready
+  devworkspaceId: workspacee0f387f8ba14462f
+  mainUrl: >-
+    https://che-host.com/workspacee0f387f8ba14462f/theia-ide/3100/
+  message: >-
+    https://che-host.com/workspacee0f387f8ba14462f/theia-ide/3100/
+  phase: Running

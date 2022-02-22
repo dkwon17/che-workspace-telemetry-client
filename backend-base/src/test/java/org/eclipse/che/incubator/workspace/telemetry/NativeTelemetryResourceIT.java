@@ -11,16 +11,18 @@
  */
 package org.eclipse.che.incubator.workspace.telemetry;
 
-import io.quarkus.test.junit.NativeImageTest;
+import io.quarkus.test.junit.QuarkusIntegrationTest;
 import org.eclipse.che.incubator.workspace.telemetry.model.Event;
 import org.eclipse.che.incubator.workspace.telemetry.model.EventProperty;
 import org.junit.jupiter.api.Test;
 
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
-@NativeImageTest
+@QuarkusIntegrationTest
 public class NativeTelemetryResourceIT extends TelemetryResourceTest {
     @Test
     public void testEvent() {
@@ -39,10 +41,10 @@ public class NativeTelemetryResourceIT extends TelemetryResourceTest {
     public void testActivity() {
         given()
                 .when()
-                .contentType("application/json")
-                .body("{\"userId\": \"alice\"}")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .post("/telemetry/activity")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body(is(""));
     }
 }

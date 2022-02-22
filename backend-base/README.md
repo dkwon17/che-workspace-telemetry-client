@@ -2,41 +2,47 @@
 
 This library is meant to be extended later by other libraries.  It implements a very small telemetry API that does not do much, require extension to add more capability.
 
+## Requirements
+* JDK 11+
+* Apache Maven 3.8.1+
+
 ## Building
 
-Be sure to set `che.api` and `che.workspace.id` in `src/main/resources/application.properties` or set them on the command line during the maven run
+Be sure to set `devworkspace.id` in `src/main/resources/application.properties` or set it on the command line during the maven run:
 
-`mvn pckage [-Dche.api=http://... -Dche.workspace.id....]`
+```shell script
+mvn package -Ddevworkspace.id=foo
+```
 
-For a native Quarkus image:
+For a native Quarkus image, run:
 
-`mvn pckage -Pnative [-Dche.api=http://... -Dche.workspace.id....]`
+```shell script
+mvn package -Pnative -Dnative-image.docker-build=true -Ddevworkspace.id=foo
+[docker|podman] build -f src/main/docker/Dockerfile.native -t quarkus/telemetry-backend-base .
+```
 
 ## Testing
 
 ### Unit testing
 
-`mvn test`
-
-###  Integration Testing
-
-#### Prerequesites
-
-+ A Running Che Cluster in CRC, Minikube, Kind, etc.
-+ A workspace ID
-+ The `CHE_MACHINE_TOKEN` from the workspace
-
-##### Standard Integration Test (Not native-mode)
-
 ```shell script
-export CHE_MACHINE_TOKEN=<token from workspace>
-mvn [integration-test | verify] -Dche.api<the URL of the che api> -Dche.workspace.id=<che workspace id>
+mvn test
 ```
 
-##### Native-mode testing
+###  Native-mode integration testing
 
-Compile the native binary with your che.api and che.workspace.id values either in application.properties or on the command line, as above
+#### Prerequisites
 
++ A Running Che Cluster in CRC, Minikube, Kind, etc.
++ A devworkspace ID of a devworkspace in the cluster
+
+In the `src/main/resources/application.properties` file, add:
+```
+%test.devworkspace.id=<devworkspace ID>
+```
+
+Then run:
 ```shell script
-mvn [integration-test | verify] -Dche.api=<URL of Che API> -Dche.workspace.id=<che workspace ID> -Dnative.image.path=target/backend-base-0.0.1-SNAPSHOT-runner
+kubectl config set-context --current --namespace=<namespace that the devworkspace is in>
+mvn verify -Pnative -Dquarkus.test.native-image-profile=test
 ```
