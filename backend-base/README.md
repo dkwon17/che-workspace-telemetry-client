@@ -46,3 +46,10 @@ Then run:
 kubectl config set-context --current --namespace=<namespace that the devworkspace is in>
 mvn verify -Pnative -Dquarkus.test.native-image-profile=test
 ```
+
+To run the native integration tests with the native image already built, run:
+```shell script
+export DEVWORKSPACE_ID=<devworkspace ID>
+mvn test-compile failsafe:integration-test
+unset DEVWORKSPACE_ID
+```
