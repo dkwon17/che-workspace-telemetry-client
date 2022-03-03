@@ -12,12 +12,14 @@
 package org.eclipse.che.incubator.workspace.telemetry.base;
 
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
+import java.util.Collections;
+import java.util.Map;
+
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,4 +43,24 @@ class AbstractAnalyticsManagerTest {
         assertEquals(86763L, analyticsManager.age);
     }
 
+    @Test
+    public void testLastEventDataIsStored() {
+      AnalyticsEvent event = AnalyticsEvent.WORKSPACE_OPENED;
+      String ownerId = "/default-theia-plugins/telemetry_plugin";
+      String ip = "192.0.0.0";
+      String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)";
+      String resolution = "2560x1440";
+      Map<String, Object> properties = Map.ofEntries(
+        entry("custom property", "foobar")
+      );
+
+      analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution, properties);
+
+      assertEquals(event, analyticsManager.lastEvent);
+      assertEquals(ip, analyticsManager.lastIp);
+      assertEquals(ownerId, analyticsManager.lastOwnerId);
+      assertEquals(userAgent, analyticsManager.lastUserAgent);
+      assertEquals(resolution, analyticsManager.lastResolution);
+      assertEquals(properties, analyticsManager.lastEventProperties);
+    }
 }
