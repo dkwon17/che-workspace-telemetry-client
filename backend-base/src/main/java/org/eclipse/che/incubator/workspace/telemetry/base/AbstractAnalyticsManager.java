@@ -79,6 +79,8 @@ public abstract class AbstractAnalyticsManager {
 
   protected long lastEventTime;
 
+  protected String lastOwnerId = null;
+
   protected String lastIp = null;
 
   protected String lastUserAgent = null;
@@ -159,6 +161,7 @@ public abstract class AbstractAnalyticsManager {
       onEvent(event, ownerId, ip, userAgent, resolution, getCurrentEventProperties(properties));
       lastEvent = event;
       lastEventTime = System.currentTimeMillis();
+      lastOwnerId = ownerId;
       lastIp = ip;
       lastUserAgent = userAgent;
       lastResolution = resolution;
