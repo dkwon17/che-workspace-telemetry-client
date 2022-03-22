@@ -17,6 +17,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
@@ -155,20 +156,26 @@ public abstract class AbstractAnalyticsManager {
     commonProperties = makeCommonProperties();
   }
 
+  public void doSendEvent(AnalyticsEvent event, String ownerId, String ip, String userAgent, String resolution) {
+    doSendEvent(event, ownerId, ip, userAgent, resolution, Collections.emptyMap());
+  }
+
   public void doSendEvent(AnalyticsEvent event, String ownerId, String ip, String userAgent, String resolution,
                           Map<String, Object> properties) {
-    if (shouldSendEvent(event, properties)) {
-      onEvent(event, ownerId, ip, userAgent, resolution, getCurrentEventProperties(properties));
-      lastEvent = event;
-      lastEventTime = System.currentTimeMillis();
-      lastOwnerId = ownerId;
-      lastIp = ip;
-      lastUserAgent = userAgent;
-      lastResolution = resolution;
-      lastEventProperties = properties;
-    } else {
-      increaseDuration(event, properties);
-      return;
+    long currentEventTime = System.currentTimeMillis();
+    synchronized(this) {
+      if (shouldSendEvent(event, properties, currentEventTime)) {
+        onEvent(event, ownerId, ip, userAgent, resolution, getMergeEventProperties(properties));
+        lastEvent = event;
+        lastEventTime = currentEventTime;
+        lastOwnerId = ownerId;
+        lastIp = ip;
+        lastUserAgent = userAgent;
+        lastResolution = resolution;
+        lastEventProperties = properties;
+      } else {
+        increaseDuration(event, properties);
+      }
     }
   }
 
@@ -230,7 +237,7 @@ public abstract class AbstractAnalyticsManager {
    *
    * @return a map of the current event and common workspace properties
    */
-  public Map<String, Object> getCurrentEventProperties(Map<String, Object> eventProperties) {
+  public Map<String, Object> getMergeEventProperties(Map<String, Object> eventProperties) {
     ImmutableMap.Builder<String, Object> currentEventPropertiesBuilder = ImmutableMap.builder();
     commonProperties.forEach((k, v) -> {
       currentEventPropertiesBuilder.put(k, v);
@@ -257,8 +264,7 @@ public abstract class AbstractAnalyticsManager {
     return commonPropertiesBuilder.build();
   }
 
-  private boolean shouldSendEvent(AnalyticsEvent event, Map<String, Object> properties) {
-    long eventTime = System.currentTimeMillis();
+  private boolean shouldSendEvent(AnalyticsEvent event, Map<String, Object> properties, long eventTime) {
     if (lastEventTime != 0
       && (sameAsLastEvent(event, properties) && insideDebounceTime(eventTime, lastEventTime, debounceTimeMillis))) {
       return false;
