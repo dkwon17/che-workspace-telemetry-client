@@ -1,6 +1,6 @@
 {
   "name": "@eclipse-che/workspace-telemetry-client",
-  "version": "0.0.1-1646732580",
+  "version": "0.0.1-1648131777",
   "description": "",
   "main": "dist/server.js",
   "browser": "dist/client.js",
