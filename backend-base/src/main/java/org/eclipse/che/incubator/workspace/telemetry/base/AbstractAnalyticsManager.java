@@ -42,9 +42,6 @@ public abstract class AbstractAnalyticsManager {
   final protected String devworkspaceId;
 
   @VisibleForTesting
-  protected long noActivityTimeout = 60000 * 3;
-
-  @VisibleForTesting
   final protected String devworkspaceName;
 
   @VisibleForTesting
@@ -65,12 +62,6 @@ public abstract class AbstractAnalyticsManager {
 
   @VisibleForTesting
   protected Map<String, Object> commonProperties;
-
-  @VisibleForTesting
-  protected static long pingTimeoutSeconds = 30;
-
-  @VisibleForTesting
-  protected static long pingTimeout = pingTimeoutSeconds * 1000;
 
   /**
    * Reads and writes to this variable is synchronized to this object
@@ -176,10 +167,6 @@ public abstract class AbstractAnalyticsManager {
       firstStart = null;
     }
     commonProperties = makeCommonProperties();
-  }
-
-  public void doSendEvent(AnalyticsEvent event, String ownerId, String ip, String userAgent, String resolution) {
-    doSendEvent(event, ownerId, ip, userAgent, resolution, Collections.emptyMap());
   }
 
   public void doSendEvent(AnalyticsEvent event, String ownerId, String ip, String userAgent, String resolution,

@@ -15,13 +15,13 @@ Version 0.0.32 is the latest version supporting Che server workspace telemetry.
 Be sure to set `devworkspace.id` in `src/main/resources/application.properties` or set it on the command line during the maven run:
 
 ```shell script
-mvn package -Ddevworkspace.id=foo
+mvn package -Ddevworkspace.id=fake-devworkspace
 ```
 
 For a native Quarkus image, run:
 
 ```shell script
-mvn package -Pnative -Dnative-image.docker-build=true -Ddevworkspace.id=foo
+mvn package -Pnative -Dnative-image.docker-build=true -Ddevworkspace.id=fake-devworkspace
 [docker|podman] build -f src/main/docker/Dockerfile.native -t quarkus/telemetry-backend-base .
 ```
 
