@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -84,7 +85,7 @@ class AbstractAnalyticsManagerTest {
     String resolution = "2560x1440";
 
     for (int i = 0; i < 10; i++) {
-      analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution);
+      analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution, Collections.emptyMap());
     }
     Mockito.verify(analyticsManager, Mockito.times(1)).onEvent(any(), any(), any(), any(), any(), any());
   }
@@ -104,7 +105,7 @@ class AbstractAnalyticsManagerTest {
 
     for (int i = 0; i < numberOfThreads; i++) {
       service.execute(() -> {
-        analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution);
+        analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution, Collections.emptyMap());
         latch.countDown();
       });
     }
@@ -135,7 +136,7 @@ class AbstractAnalyticsManagerTest {
     for (int i = 0; i < numberOfThreads; i++) {
       AnalyticsEvent event = events[i];
       service.execute(() -> {
-        analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution);
+        analyticsManager.doSendEvent(event, ownerId, ip, userAgent, resolution, Collections.emptyMap());
         latch.countDown();
       });
     }
@@ -168,6 +169,6 @@ class AbstractAnalyticsManagerTest {
 
   private void clearLastEvent() {
     // send a dummy event to overwrite previous event
-    analyticsManager.doSendEvent(null, null, null, null, null);
+    analyticsManager.doSendEvent(null, null, null, null, null, Collections.emptyMap());
   }
 }
