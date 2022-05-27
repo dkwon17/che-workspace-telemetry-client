@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.eclipse.che.incubator.workspace-telemetry</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.36</version>
+    <version>0.0.37</version>
   </parent>
   <distributionManagement>
     <repository>
@@ -12,13 +12,13 @@
     </repository>
   </distributionManagement>
   <artifactId>javascript</artifactId>
-  <version>0.0.36</version>
+  <version>0.0.37</version>
   <packaging>pom</packaging>
   <dependencies>
     <dependency>
       <groupId>org.eclipse.che.incubator.workspace-telemetry</groupId>
       <artifactId>backend-base</artifactId>
-      <version>0.0.36</version>
+      <version>0.0.37</version>
       <classifier>resources</classifier>
       <type>zip</type>
     </dependency>

@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.eclipse.che.incubator.workspace-telemetry</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.36</version>
+    <version>0.0.37</version>
   </parent>
   <distributionManagement>
     <repository>
@@ -12,7 +12,7 @@
     </repository>
   </distributionManagement>
   <artifactId>backend-base</artifactId>
-  <version>0.0.36</version>
+  <version>0.0.37</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>11</maven.compiler.release>
